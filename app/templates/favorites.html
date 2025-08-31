@@ -1,0 +1,33 @@
+<!-- app/templates/favorites.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-4">
+    <h1 class="mb-4 text-center" data-aos="fade-down">❤️ My Favorites</h1>
+
+    <div class="row">
+        {% for item in items %}
+            <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="{{ (loop.index0 % 3) * 100 }}">
+                <div class="card h-100 text-center overflow-hidden">
+                    <!-- Image of the Dish -->
+                    <img src="https://placehold.co/600x400/FF6347/FFFFFF?text={{ item.name | urlencode }}" class="card-img-top" alt="Image of {{ item.name }}">
+                    
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{ item.name }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ item.category }}</h6>
+                        <p class="card-text fs-4">⭐ <strong>{{ item.avg_rating }}</strong> <small>/ 5.0</small></p>
+                        <p class="text-muted">({{ item.review_count }} reviews)</p>
+                        <a href="{{ url_for('main.item_detail', item_id=item.id) }}" class="btn btn-outline-primary mt-auto">View Details</a>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="col text-center" data-aos="fade-up">
+                <p class="lead">You haven't favorited any items yet.</p>
+                <p>Click the 'Favorite' button on an item's page to add it here.</p>
+                <a href="{{ url_for('main.menu') }}" class="btn btn-primary">Browse the Menu</a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

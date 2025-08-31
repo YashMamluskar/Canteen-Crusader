@@ -1,0 +1,61 @@
+<!-- app/templates/user_profile.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Profile Header -->
+    <div class="profile-header text-center mb-4" data-aos="fade-down">
+        <img class="profile-avatar mb-3" src="{{ url_for('static', filename='profile_pics/' + user.image_file) }}">
+        <h1 class="display-4">{{ user.username }}</h1>
+        {% if user.bio %}
+            <p class="lead text-muted">{{ user.bio }}</p>
+        {% endif %}
+        <div class="d-flex justify-content-center gap-3">
+            <span class="badge bg-primary">Reviews: {{ reviews|length }}</span>
+            <span class="badge bg-secondary">Favorites: {{ user.favorited_items|length }}</span>
+        </div>
+        {% if current_user == user %}
+            <a href="{{ url_for('main.edit_profile') }}" class="btn btn-outline-primary btn-sm mt-3">Edit Profile</a>
+        {% endif %}
+    </div>
+
+    <h2 class="text-center mb-4" data-aos="fade-up">Review History</h2>
+
+    {% for review in reviews %}
+        <div class="card mb-3" data-aos="fade-up">
+            <div class="card-header d-flex justify-content-between">
+                <div>
+                    <a href="{{ url_for('main.item_detail', item_id=review.item.id) }}" class="fw-bold">{{ review.item.name }}</a>
+                    <span class="text-muted">- {{ review.item.category }}</span>
+                </div>
+                <small class="text-muted">{{ review.date_posted.strftime('%Y-%m-%d') }}</small>
+            </div>
+            <div class="row g-0">
+                {% if review.image_file %}
+                <div class="col-md-3">
+                    <img src="{{ url_for('static', filename='uploads/' + review.image_file) }}" class="review-img" alt="Review image for {{ review.item.name }}">
+                </div>
+                {% endif %}
+                <div class="col-md-{{ '9' if review.image_file else '12' }}">
+                    <div class="card-body">
+                        <div class="star-rating">
+                            {% for i in range(1, 6) %}
+                                {% if i <= review.rating %}
+                                    <span>★</span>
+                                {% else %}
+                                    <span class="text-muted">★</span>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <p class="card-text mt-2">{{ review.text }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="text-center" data-aos="fade-up">
+            <p>{{ user.username }} has not written any reviews yet.</p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock content %}

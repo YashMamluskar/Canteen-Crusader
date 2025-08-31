@@ -1,0 +1,28 @@
+# Virtual Environment
+venv/
+.venv/
+env/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Environment variables (for SECRET_KEY)
+.env
+.flaskenv
+
+# Local SQLite database file and instance folder
+site.db
+instance/
+
+# User-uploaded files
+# Ignore all files in these folders...
+app/static/uploads/
+app/static/profile_pics/
+
+# ... but DO NOT ignore the default profile picture
+!app/static/profile_pics/default.jpg
+
+# IDE configuration files
+.idea/
+.vscode/

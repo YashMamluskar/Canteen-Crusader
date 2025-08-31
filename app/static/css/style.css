@@ -1,0 +1,319 @@
+/* app/static/css/style.css */
+
+/* --- Google Fonts --- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Lato:wght@400;700&display=swap');
+
+/* --- Variables & Base Styles --- */
+:root {
+    --primary-color: #FF6347; /* Tomato */
+    --primary-hover: #E5533D;
+    --dark-text: #343a40;
+    --light-bg: #f8f9fa;
+}
+
+/* --- Atmospheric Background --- */
+body {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1920&q=80');
+    background-attachment: fixed;
+    background-size: cover;
+    /* ... other body styles ... */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: 'Lato', sans-serif;
+}
+
+/* --- 3D Animated Card --- */
+.card-3d-container {
+    perspective: 1000px;
+}
+
+.card.card-3d {
+    transition: transform 0.4s ease;
+    transform-style: preserve-3d;
+}
+
+.card-3d-container:hover .card.card-3d {
+    transform: rotateY(10deg) rotateX(5deg) scale(1.05);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+/* --- Ken Burns Image Effect --- */
+.ken-burns-container {
+    overflow: hidden;
+    border-radius: 0.5rem 0.5rem 0 0; /* Match card's top corners */
+}
+
+.ken-burns-image {
+    animation: kenburns 20s ease-out infinite;
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 100%;
+}
+
+@keyframes kenburns {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+}
+
+main {
+    flex: 1;
+}
+
+h1, h2, h3, h4, h5, h6, .navbar-brand {
+    font-family: 'Poppins', sans-serif;
+}
+
+.footer {
+    flex-shrink: 0;
+}
+
+/* --- Jumbotron & Interactive Background --- */
+.jumbotron {
+    position: relative;
+    overflow: hidden;
+    background-color: #212529; /* Darker background for particles */
+    color: white;
+}
+
+#tsparticles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.jumbotron .content {
+    position: relative;
+    z-index: 1;
+}
+
+/* --- Parallax Background Section --- */
+.parallax {
+    /* The image used */
+    background-image: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1920');
+
+    /* Set a specific height */
+    min-height: 400px;
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+}
+
+.parallax-overlay {
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 2rem;
+    border-radius: 0.5rem;
+}
+
+/* --- Animated & Styled Cards --- */
+.card {
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    border: none;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.card-title {
+    color: var(--dark-text);
+}
+
+/* --- Animated Buttons --- */
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+    font-weight: bold;
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px; /* Pill-shaped buttons */
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+    border-color: var(--primary-hover);
+    transform: scale(1.05);
+}
+
+.btn-outline-primary {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    font-weight: bold;
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Add this to your style.css file */
+.card .card-img-top {
+    transition: transform 0.3s ease-in-out;
+}
+
+.card:hover .card-img-top {
+    transform: scale(1.05); /* Zooms the image slightly */
+}
+
+/* Add these styles to the end of your style.css file */
+
+/* --- Star Rating Display --- */
+.star-rating {
+    color: #ffc107; /* Bootstrap's warning/yellow color */
+    font-size: 1.25rem;
+}
+
+.star-rating .text-muted {
+    color: #e0e0e0 !important; /* A light grey for empty stars */
+}
+
+/* --- Review Image Styling --- */
+.review-img {
+    width: 100%;
+    height: 200px; /* Fixed height */
+    object-fit: cover; /* Ensures the image covers the area without distortion */
+    border-radius: 0.5rem 0 0 0.5rem; /* Rounded corners on the left */
+}
+/* Add these styles to your existing style.css file */
+
+/* --- 3D Carousel (SwiperJS) --- */
+.swiper {
+    width: 100%;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.swiper-slide {
+    background-position: center;
+    background-size: cover;
+    width: 300px;
+    height: 400px;
+}
+
+.swiper-slide .card {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 1rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    background-color: var(--light-bg);
+}
+
+.swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 1rem 1rem 0 0;
+}
+
+/* Adds a cool reflection effect below the carousel */
+.swiper-3d .swiper-slide-shadow-left,
+.swiper-3d .swiper-slide-shadow-right {
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+}
+/* Add these styles to the end of your style.css file */
+
+/* --- Auth Page Layout --- */
+.auth-container {
+    display: flex;
+    min-height: calc(100vh - 56px - 58px); /* Full height minus navbar and footer */
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 0;
+}
+
+.auth-card {
+    display: flex;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    width: 100%;
+    max-width: 900px;
+}
+
+.auth-image-panel {
+    flex: 1;
+    background-image: url('https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&q=80');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 2rem;
+}
+
+.auth-image-panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0.1));
+}
+
+.auth-image-panel h2, .auth-image-panel p {
+    position: relative;
+    z-index: 1;
+}
+
+.auth-form-panel {
+    flex: 1;
+    padding: 3rem;
+    background-color: #ffffff;
+}
+
+/* Hide image panel on smaller screens */
+@media (max-width: 768px) {
+    .auth-image-panel {
+        display: none;
+    }
+    .auth-form-panel {
+        padding: 2rem;
+    }
+}
+/* Add these styles to the end of your style.css file */
+
+/* --- Profile Page --- */
+.profile-header {
+    background: var(--light-bg);
+    padding: 2rem;
+    border-radius: 1rem;
+}
+
+.profile-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid #fff;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}

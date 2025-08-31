@@ -1,0 +1,38 @@
+<!-- app/templates/login.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card" data-aos="zoom-in">
+        <!-- Image Panel -->
+        <div class="auth-image-panel">
+            <h2>Welcome Back!</h2>
+            <p>Log in to continue your culinary crusade.</p>
+        </div>
+
+        <!-- Form Panel -->
+        <div class="auth-form-panel">
+            <h2 class="card-title text-center mb-4">Log In</h2>
+            <form method="POST" action="">
+                {{ form.hidden_tag() }}
+                <div class="mb-3">
+                    {{ form.username.label(class="form-label") }}
+                    {{ form.username(class="form-control form-control-lg") }}
+                </div>
+                <div class="mb-3">
+                    {{ form.password.label(class="form-label") }}
+                    {{ form.password(class="form-control form-control-lg") }}
+                </div>
+                <div class="d-grid mt-4">
+                    {{ form.submit(class="btn btn-primary btn-lg") }}
+                </div>
+            </form>
+            <div class="text-center mt-3">
+                <small class="text-muted">
+                    Need An Account? <a href="{{ url_for('main.register') }}">Sign Up Now</a>
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

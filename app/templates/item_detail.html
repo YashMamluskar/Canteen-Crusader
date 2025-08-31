@@ -1,0 +1,129 @@
+<!-- app/templates/item_detail.html -->
+{% extends "base.html" %}
+{% block content %}
+<div class="container py-4">
+    <div class="card mb-4" data-aos="fade-in">
+        <div class="row g-0">
+            <div class="col-lg-6">
+                <!-- Ken Burns Effect Container -->
+                <div class="ken-burns-container h-100">
+                    <div class="ken-burns-image" style="background-image: url('{{ item.image_url }}')"></div>
+                </div>
+            </div>
+            <div class="col-lg-6 d-flex flex-column">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h1 class="card-title">{{ item.name }}</h1>
+                            <h4 class="card-subtitle mb-2 text-muted">{{ item.category }}</h4>
+                        </div>
+                        <!-- Favorite Buttons -->
+                        {% if current_user.is_authenticated %}
+                            <div class="ms-3">
+                                {% if item in current_user.favorited_items %}
+                                    <form action="{{ url_for('main.unfavorite_item', item_id=item.id) }}" method="POST">
+                                        <button type="submit" class="btn btn-danger btn-sm">❤️ Unfavorite</button>
+                                    </form>
+                                {% else %}
+                                    <form action="{{ url_for('main.favorite_item', item_id=item.id) }}" method="POST">
+                                        <button type="submit" class="btn btn-outline-danger btn-sm">🤍 Favorite</button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <hr>
+                    <p class="card-text fs-3">⭐ <strong>{{ item.avg_rating }}</strong> / 5.0 from <strong>{{ item.review_count }}</strong> reviews</p>
+                    <p class="card-text">{{ item.description }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <!-- Column for Submitting a Review -->
+        <div class="col-lg-5 mb-4" data-aos="fade-right">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Leave a Review</h3>
+                </div>
+                <div class="card-body">
+                    {% if current_user.is_authenticated %}
+                        <form method="POST" action="" enctype="multipart/form-data">
+                            {{ form.hidden_tag() }}
+                            <div class="mb-3">
+                                {{ form.rating.label(class="form-label") }}
+                                {{ form.rating(class="form-select") }}
+                            </div>
+                            <div class="mb-3">
+                                {{ form.text.label(class="form-label") }}
+                                {{ form.text(class="form-control", rows="3") }}
+                            </div>
+                            <div class="mb-3">
+                                {{ form.picture.label(class="form-label") }}
+                                {{ form.picture(class="form-control") }}
+                            </div>
+                            <div class="d-grid">
+                                {{ form.submit(class="btn btn-primary") }}
+                            </div>
+                        </form>
+                    {% else %}
+                        <p>You must be <a href="{{ url_for('main.login', next=request.path) }}">logged in</a> to leave a review.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Column for Existing Reviews -->
+        <div class="col-lg-7" data-aos="fade-left">
+            <h2 class="mb-3">Reviews</h2>
+            {% for review in reviews %}
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        {% if review.image_file %}
+                        <div class="col-md-4">
+                            <img src="{{ url_for('static', filename='uploads/' + review.image_file) }}" class="review-img" alt="Review image for {{ item.name }}">
+                        </div>
+                        {% endif %}
+                        <div class="col-md-{{ '8' if review.image_file else '12' }}">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <div class="star-rating">
+                                        {% for i in range(1, 6) %}
+                                            {% if i <= review.rating %}
+                                                <span>★</span> {# Filled star #}
+                                            {% else %}
+                                                <span class="text-muted">★</span> {# Empty star #}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    <small class="text-muted">{{ review.date_posted.strftime('%Y-%m-%d') }}</small>
+                                </div>
+                                <p class="card-text mt-2">{{ review.text }}</p>
+                                <footer class="blockquote-footer mb-0 d-flex justify-content-between align-items-center">
+                                    <!-- Link username to profile page -->
+                                    <cite>Reviewed by <a href="{{ url_for('main.user_profile', username=review.author.username) }}">{{ review.author.username }}</a></cite>
+                                    <!-- Display Sentiment Icon -->
+                                    <span title="Sentiment Score: {{ review.sentiment|round(2) if review.sentiment is not none }}">
+                                        {% if review.sentiment is not none %}
+                                            {% if review.sentiment > 0.2 %}
+                                                😊
+                                            {% elif review.sentiment < -0.2 %}
+                                                😠
+                                            {% else %}
+                                                😐
+                                            {% endif %}
+                                        {% endif %}
+                                    </span>
+                                </footer>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <p>No reviews yet for this item. Be the first to write one!</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock content %}
